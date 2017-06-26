@@ -2,11 +2,12 @@
 
 import Reflux from 'reflux';
 import Actions from '../actions/Actions';
-import { firebaseUrl } from '../util/constants';
+//import { firebaseUrl } from '../util/constants';
 
-import Firebase from 'firebase';
+//import Firebase from 'firebase';
+import firebase from 'firebase';
 
-const ref = new Firebase(firebaseUrl);
+let ref = firebase.database().ref();
 const postsRef = ref.child('posts');
 const commentsRef = ref.child('comments');
 
@@ -50,7 +51,7 @@ const ProfileStore = Reflux.createStore({
         // postDataObj: firebase object with a forEach property
         postDataObj.forEach(postData => {
             let post = postData.val();
-            post.id = postData.key();
+            post.id = postData.key;
             newPosts.unshift(post);
         });
 
@@ -65,7 +66,7 @@ const ProfileStore = Reflux.createStore({
         // commentDataObj: firebase object with a forEach property
         commentDataObj.forEach(commentData => {
             let comment = commentData.val();
-            comment.id = commentData.key();
+            comment.id = commentData.key;
             newComments.unshift(comment);
         });
 

@@ -1,13 +1,17 @@
 'use strict';
 
 import Reflux from 'reflux';
-import Firebase from 'firebase';
-import { firebaseUrl } from '../util/constants';
+import firebase from 'firebase';
+import { config } from '../util/constants';
+
 
 // used to create email hash for gravatar
 import md5 from 'md5';
 
-const baseRef = new Firebase(firebaseUrl);
+//const baseRef = new Firebase(firebaseUrl);
+
+firebase.initializeApp(config);
+const baseRef = firebase.database().ref();
 const commentsRef = baseRef.child('comments');
 const postsRef = baseRef.child('posts');
 const usersRef = baseRef.child('users');
@@ -50,9 +54,15 @@ const Actions = Reflux.createActions([
 =============================== */
 
 Actions.login.listen((loginData) => {
-    baseRef.authWithPassword(loginData, (error) => (
-        error ? Actions.modalError(error.code) : Actions.hideModal()
-    ));
+    var auth = firebase.auth();
+    auth.signInWithEmailAndPassword(loginData.email, loginData.password).then((result) => {
+        // User signed in!
+        console.log(result);
+        Actions.hideModal();
+    }).catch(function(error) {
+        error ? Actions.modalError(error.code) : Actions.hideModal();
+    });
+
 });
 
 function createUser(username, loginData) {
@@ -60,17 +70,27 @@ function createUser(username, loginData) {
         username: username,
         md5hash: md5(loginData.email)
     };
+    var auth = firebase.auth();
+    auth.createUserWithEmailAndPassword(loginData.email, loginData.password).then(
+        (userData) => {
+            // user successfully created
+            // add user profile then log them in
+            usersRef.child(userData.uid).set(profile).then(
+              Actions.login(loginData)
+            ).catch( (error) => {
+                return Actions.modalError(error.code);
+            });
+        },
+        (error) => {
+            if (error) {
+                // email taken, other login errors
+                return Actions.modalError(error.code);
+            }
 
-    baseRef.createUser(loginData, (error, userData) => {
-        if (error) {
-            // email taken, other login errors
-            return Actions.modalError(error.code);
+
+
         }
-
-        // user successfully created
-        // add user profile then log them in
-        usersRef.child(userData.uid).set(profile, err => err || Actions.login(loginData));
-    });
+    );
 }
 
 Actions.register.listen((username, loginData) => {
@@ -91,14 +111,15 @@ Actions.register.listen((username, loginData) => {
 =============================== */
 
 Actions.submitPost.listen(function(post) {
-    let newPostRef = postsRef.push(post, (error) => {
-        if (error) { return Actions.modalError(error); }
-
-        let postId = newPostRef.key();
+    postsRef.push(post).then((post) => {
+        var postId = post.key;
         // add commentId to user's profile
         usersRef
             .child(`${post.creatorUID}/submitted/${postId}`)
             .set(true, () => Actions.updateLatestPost(postId));
+    }
+    ).catch((error) => {
+        return Actions.modalError(error);
     });
 });
 
@@ -195,7 +216,7 @@ Actions.addComment.listen((comment) => {
         updateCommentCount(comment.postId, 1);
 
         // add commentId to user's profile
-        usersRef.child(`${comment.creatorUID}/submitted/${newCommentRef.key()}`).set(true);
+        usersRef.child(`${comment.creatorUID}/submitted/${newCommentRef.key}`).set(true);
     });
 });
 

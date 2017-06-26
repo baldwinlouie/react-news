@@ -57,7 +57,7 @@
     "react-router": "^1.0.0-rc3",
     "reflux": "^0.3.0",
     "sass-loader": "^3.1.1",
-    "sinon": "^1.17.2",
+    "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.0",
     "svg-inline-loader": "^0.4.0",
@@ -74,5 +74,8 @@
     "lint": "./node_modules/.bin/eslint src/",
     "test": "./node_modules/.bin/karma start ./test/karma.conf.js --reporters mocha,coverage",
     "test:watch": "./node_modules/.bin/karma start ./test/karma.conf.js --no-single-run --reporters mocha"
+  },
+  "dependencies": {
+    "firebase": "^4.1.3"
   }
 }

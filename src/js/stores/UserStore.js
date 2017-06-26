@@ -3,10 +3,14 @@
 import Reflux from 'reflux';
 import update from 'react-addons-update';
 import Actions from '../actions/Actions';
-import { firebaseUrl } from '../util/constants';
+//import { config } from '../util/constants';
 
-import Firebase from 'firebase';
-const baseRef = new Firebase(firebaseUrl);
+import firebase from 'firebase';
+
+
+//firebase.initializeApp(config);
+const baseRef = firebase.database().ref();
+////const baseRef = new Firebase(firebaseUrl);
 const usersRef = baseRef.child('users');
 
 const defaultUser = {
@@ -27,20 +31,22 @@ const UserStore = Reflux.createStore({
 
     init() {
         // triggered by auth changes
-        baseRef.onAuth((authData) => {
-            if (!authData) {
-                // user is logged out
+        var auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User signed in!
+                this.loginCompleted(user.uid);
+            } else {
+                // User logged out
                 usersRef.off();
                 this.logoutCompleted();
-            } else {
-                // user is logged in
-                this.loginCompleted(authData.uid);
             }
         });
     },
 
     logout() {
-        baseRef.unauth();
+        firebase.auth().signOut();
     },
 
     logoutCompleted() {

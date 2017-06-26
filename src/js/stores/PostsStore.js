@@ -1,11 +1,13 @@
 'use strict';
 
 import Reflux from 'reflux';
-import Firebase from 'firebase';
+//import Firebase from 'firebase';
 import Actions from '../actions/Actions';
-import { firebaseUrl } from '../util/constants';
+//import { firebaseUrl } from '../util/constants';
 
-let baseRef = new Firebase(firebaseUrl);
+import firebase from 'firebase';
+
+let baseRef = firebase.database().ref();
 let postsRef = baseRef.child('posts');
 // let scrollRef = new Firebase.util.Scroll(baseRef, 'number');
 
@@ -59,10 +61,9 @@ const PostsStore = Reflux.createStore({
 
         // add posts to new array
         let newPosts = [];
-
         postDataObj.forEach(postData => {
             let post = postData.val();
-            post.id = postData.key();
+            post.id = postData.key;
             newPosts.unshift(post);
         });
 

@@ -2,10 +2,11 @@
 
 import Reflux from 'reflux';
 import Actions from '../actions/Actions';
-import { firebaseUrl } from '../util/constants';
+//import { firebaseUrl } from '../util/constants';
 
-import Firebase from 'firebase';
-const ref = new Firebase(firebaseUrl);
+import firebase from 'firebase';
+//const ref = new Firebase(firebaseUrl);
+let ref = firebase.database().ref();
 const postsRef = ref.child('posts');
 const commentsRef = ref.child('comments');
 
@@ -36,12 +37,11 @@ const SingleStore = Reflux.createStore({
 
     updatePost(postDataObj) {
         let post = postDataObj.val();
-
         if (!post) {
             // post doesn't exist
             postData.post = null;
         } else {
-            post.id = postDataObj.key();
+            post.id = postDataObj.key;
             postData.post = post;
         }
 
@@ -53,7 +53,7 @@ const SingleStore = Reflux.createStore({
 
         commentDataObj.forEach(commentData => {
             let comment = commentData.val();
-            comment.id = commentData.key();
+            comment.id = commentData.key;
             newComments.unshift(comment);
         });
 

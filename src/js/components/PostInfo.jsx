@@ -19,7 +19,6 @@ const PostLink = React.createClass({
 
     render() {
         const { user, post } = this.props;
-
         let userUpvoted = user.upvoted || {};
         let creatorIsLoggedIn = user.uid === post.creatorUID;
 
