@@ -14,12 +14,11 @@ export const errorMessages = {
     generic: 'Something went wrong.'
 };
 
-//export const firebaseUrl = 'https://resplendent-fire-4810.firebaseio.com/';
 export const config = {
-    apiKey: 'AIzaSyACHpWBJxnEH8XAw9ykhWVi7ARX53NcCo8',
-    authDomain: 'reactnews-2b7f9.firebaseapp.com',
-    databaseURL: 'https://reactnews-2b7f9.firebaseio.com',
-    projectId: 'reactnews-2b7f9',
-    storageBucket: 'reactnews-2b7f9.appspot.com',
-    messagingSenderId: '481538472689'
+    apiKey: 'API_Key',
+    authDomain: 'PROJECT_ID.firebaseapp.com',
+    databaseURL: 'https://PROJECT_ID.firebaseio.com',
+    projectId: 'PROJECT_ID',
+    storageBucket: 'PROJECT_ID.appspot.com',
+    messagingSenderId: 'MESSAGE_SENDER_ID'
 };

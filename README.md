@@ -6,6 +6,10 @@
 
 This is a real-time Hacker News clone written using [React](http://facebook.github.io/react/), [RefluxJS](https://github.com/spoike/refluxjs), and a [Firebase](http://firebase.com) backend.
 
+## Firebase 3+ support
+
+Update the connection information in src/js/util/constants.js.  The settings are describe the [Firebase documentation](https://firebase.google.com/support/guides/firebase-web)
+
 ## Demo
 
 [![React-News](http://henleyedition.com/content/images/2015/02/Screen-Shot-2015-02-22-at-10-59-05-PM.png)](http://henleyedition.com/react-news/)
