@@ -2,9 +2,6 @@
 
 import Reflux from 'reflux';
 import Actions from '../actions/Actions';
-//import { firebaseUrl } from '../util/constants';
-
-//import Firebase from 'firebase';
 import firebase from 'firebase';
 
 let ref = firebase.database().ref();

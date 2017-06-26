@@ -1,10 +1,7 @@
 'use strict';
 
 import Reflux from 'reflux';
-//import Firebase from 'firebase';
 import Actions from '../actions/Actions';
-//import { firebaseUrl } from '../util/constants';
-
 import firebase from 'firebase';
 
 let baseRef = firebase.database().ref();

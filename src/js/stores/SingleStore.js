@@ -2,10 +2,8 @@
 
 import Reflux from 'reflux';
 import Actions from '../actions/Actions';
-//import { firebaseUrl } from '../util/constants';
 
 import firebase from 'firebase';
-//const ref = new Firebase(firebaseUrl);
 let ref = firebase.database().ref();
 const postsRef = ref.child('posts');
 const commentsRef = ref.child('comments');

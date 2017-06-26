@@ -3,14 +3,9 @@
 import Reflux from 'reflux';
 import update from 'react-addons-update';
 import Actions from '../actions/Actions';
-//import { config } from '../util/constants';
-
 import firebase from 'firebase';
 
-
-//firebase.initializeApp(config);
 const baseRef = firebase.database().ref();
-////const baseRef = new Firebase(firebaseUrl);
 const usersRef = baseRef.child('users');
 
 const defaultUser = {

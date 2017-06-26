@@ -8,8 +8,6 @@ import { config } from '../util/constants';
 // used to create email hash for gravatar
 import md5 from 'md5';
 
-//const baseRef = new Firebase(firebaseUrl);
-
 firebase.initializeApp(config);
 const baseRef = firebase.database().ref();
 const commentsRef = baseRef.child('comments');
